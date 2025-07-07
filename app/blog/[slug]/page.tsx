@@ -3,13 +3,17 @@ import { Calendar } from 'lucide-react'
 import EmailSubscription from '@/components/EmailSubscription'
 import { returnSingleBlog } from '@/lib/fetch/hygraphBlogs'
 import { getDateOrTime } from '@/lib/fetch/datem'
+import { RichText } from '@graphcms/rich-text-react-renderer'
 import type { Metadata } from 'next'
+import Link from 'next/link';
 
 interface BlogPostPageProps {
     params: {
         slug: string
     }
 }
+
+const revalidate = 300
 
 // ✅ Optional SEO metadata
 export async function generateMetadata(props: BlogPostPageProps): Promise<Metadata> {
@@ -21,30 +25,30 @@ export async function generateMetadata(props: BlogPostPageProps): Promise<Metada
         title: blog.title,
         description: blog.description,
         openGraph: {
-            images: [blog.image.url],
+            images: [blog.image],
         },
     }
 }
 
 export default async function BlogPostPage(props: BlogPostPageProps) {
-    const { slug } = props.params;
+    const { slug } = props.params
     let data: Awaited<ReturnType<typeof returnSingleBlog>> = {
         blogB: {
             id: '',
             title: '',
             slug: '',
             description: '',
-            image: { url: '' },
+            image: '',
             createdAt: '',
-            content: { html: '' },
-            blogComments: []
-        }
+            content: { raw: '' },
+            blogComments: [],
+        },
     }
 
     try {
-        data  = await returnSingleBlog(slug)
+        data = await returnSingleBlog(slug)
     } catch (error) {
-        console.log("failed to fetch blog data for:",slug)
+        console.log('failed to fetch blog data for:', slug)
     }
     const blog = data.blogB
 
@@ -53,14 +57,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header Image */}
                 <div className="relative h-96 mb-8 rounded-lg overflow-hidden">
-                    <Image
-                        src={blog.image.url}
-                        alt={blog.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover"
-                        priority
-                    />
+                    <Image src={blog.image} alt={blog.title} fill className="object-cover" priority />
                 </div>
 
                 {/* Article Header */}
@@ -75,10 +72,31 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
                 </header>
 
                 {/* Article Content */}
-                <article className="prose prose-lg max-w-none mb-12">
-                    <div
-                        className="text-body leading-relaxed text-gray-700"
-                        dangerouslySetInnerHTML={{ __html: blog.content.html }}
+                <article className="prose prose-lg max-w-none mb-12 font-source-sans text-xl font-normal text-gray-800 mt-8 ">
+                    <RichText
+                        content={blog.content.raw}
+                        renderers={{
+                            a: ({ children, openInNewTab, href, rel, ...rest }) => {
+                                if (href!.match(/^https?:\/\/|^\/\//i)) {
+                                    return (
+                                        <a
+                                            href={href}
+                                            target={openInNewTab ? '_blank' : '_self'}
+                                            rel={rel || 'noopener noreferrer'}
+                                            {...rest}
+                                        >
+                                            {children}
+                                        </a>
+                                    )
+                                }
+
+                                return (
+                                    <Link href={`${href}`}>
+                                        <a {...rest}>{children}</a>
+                                    </Link>
+                                )
+                            },
+                        }}
                     />
                 </article>
 

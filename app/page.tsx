@@ -97,7 +97,7 @@ export default async function HomePage() {
                                     slug={post.slug}
                                     description={post.description}
                                     date={getDateOrTime(post.createdAt)}
-                                    image={post.image.url}
+                                    image={post.image}
                                     id={post.id}
                                 />
                             ))}

@@ -6,7 +6,7 @@ interface IMultipleBlogs {
     title: string
     description: string
     slug: string
-    image: { url: string }
+    image: string;
     createdAt: string
 }
 
@@ -28,9 +28,7 @@ export function returnMultipleBlogs(): Promise<DMultipleBlog<IMultipleBlogs>> {
     title
     description
     slug
-    image {
-      url
-    }
+    image 
     createdAt
   }
 }
@@ -45,8 +43,10 @@ export interface ISingleBlog {
     id: string
     title: string
     slug: string
-    content: { html: string }
-    image: { url: string }
+    content: {
+      raw:any
+    }
+    image: string;
     blogComments: Array<{
         id:string;
         userName: string
@@ -71,11 +71,9 @@ export function returnSingleBlog(slugURl: string): Promise<DSingleBlog> {
       title
 
       content {
-        html
+        raw
       }
-      image {
-        url
-      }
+      image 
       blogComments {
         id
         userName
@@ -96,7 +94,7 @@ interface INumberedBlog {
     title: string
     description: string
     slug: string
-    image: { url: string }
+    image: string;
     createdAt: string
 }
 
@@ -112,9 +110,7 @@ export function returnNumberedBlogs(blogNumber: number): Promise<DMultipleBlog<I
     title
     description
     slug
-    image {
-      url
-    }
+    image 
     createdAt
   }
 }
