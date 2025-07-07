@@ -46,7 +46,7 @@ export default function Navigation() {
                                 // console.log("onDidClick")
                                 setIsOpen(!isOpen)
                             }}
-                            className="border border-red-700  text-charcoal-black hover:text-cocoa-brown"
+                            className="  text-charcoal-black hover:text-cocoa-brown"
                         >
                             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>
