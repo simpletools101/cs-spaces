@@ -84,6 +84,7 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
                                             target={openInNewTab ? '_blank' : '_self'}
                                             rel={rel || 'noopener noreferrer'}
                                             {...rest}
+                                            className='underline'
                                         >
                                             {children}
                                         </a>
@@ -91,8 +92,8 @@ export default async function BlogPostPage(props: BlogPostPageProps) {
                                 }
 
                                 return (
-                                    <Link href={`${href}`}>
-                                        <a {...rest}>{children}</a>
+                                    <Link href={`${href}`} className='underline'>
+                                        <a {...rest} className='underline'>{children}</a>
                                     </Link>
                                 )
                             },
