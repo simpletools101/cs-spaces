@@ -5,7 +5,8 @@ import { returnNumberedBlogs } from '@/lib/fetch/hygraphBlogs'
 import { getDateOrTime } from '@/lib/fetch/datem'
 
 
-const revailidate = 4;
+export const revalidate = 60; // seconds
+
 
 export default async function HomePage() {
     // Import the types if not already imported

@@ -13,7 +13,8 @@ interface BlogPostPageProps {
     }
 }
 
-export const revalidate = 300
+export const revalidate = 60; // seconds
+
 
 // ✅ Optional SEO metadata
 export async function generateMetadata(props: BlogPostPageProps): Promise<Metadata> {

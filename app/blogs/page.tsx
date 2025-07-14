@@ -2,6 +2,8 @@ import BlogCard from '@/components/BlogCard'
 import { getDateOrTime } from '@/lib/fetch/datem'
 import { returnMultipleBlogs } from '@/lib/fetch/hygraphBlogs'
 
+export const revalidate = 60; // seconds
+
 
 export default async function BlogsPage() {
 
